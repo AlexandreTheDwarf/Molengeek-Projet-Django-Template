@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Blog
+from .models import Portfolio
+from .models import Group
+from .models import Contact
 
 # Create your views here.
 
@@ -42,124 +46,25 @@ def index(request):
 
 def blog(request):
     blog_intro = "Découvrez nos derniers articles, pensées et idées sur le développement, le design et plus encore."
-    articles = [
-        {
-            "image": "img/portfolio-1.jpg",
-            "title": "Is Passion Good For Business?",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "url": "blog-post.html"
-        },
-        {
-            "image": "img/portfolio-2.jpg",
-            "title": "How to Stay Creative",
-            "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "url": "blog-post.html"
-        },
-    ]
-    return render(request, "blog.html", {"articles": articles, "blog_intro" : blog_intro})
+    articles = Blog.objects.all()  # récupération des articles depuis la DB
+    return render(request, "blog.html", {"articles": articles, "blog_intro": blog_intro})
 
 def contact(request):
-    contact_info = {
-        "title": "Get in touch",
-        "description": "Just a note on how wonderful this theme is! If you are thinking of purchasing, i'd say do it! The flexibility is awesome possibilities are endless.",
-        "company": "BusinessPerfect",
-        "phone": "+1-541-754-3010",
-        "fax": "+1-541-754-3010",
-        "email": "hello@businessperfect.com"
-    }
-    return render(request, "contact.html", {"contact_info": contact_info})
+    contact_info = Contact.objects.first()  
+    return render(request, "contact.html", {'contact_info': contact_info})
 
 def portfolio(request):
-    projets = [
-        {
-            "img": "img/portfolio-1.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["uiux"],
-        },
-        {
-            "img": "img/portfolio-2.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["branding"],
-        },
-        {
-            "img": "img/portfolio-3.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["identity"],
-        },
-        {
-            "img": "img/portfolio-4.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["uiux"],
-        },
-        {
-            "img": "img/portfolio-5.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["illustrations"],
-        },
-        {
-            "img": "img/portfolio-6.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["identity"],
-        },
-        {
-            "img": "img/portfolio-7.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["uiux"],
-        },
-        {
-            "img": "img/portfolio-8.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["branding"],
-        },
-        {
-            "img": "img/portfolio-9.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["uiux"],
-        },
-        {
-            "img": "img/portfolio-10.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["branding"],
-        },
-        {
-            "img": "img/portfolio-2.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["illustrations"],
-        },
-        {
-            "img": "img/portfolio-9.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["illustrations"],
-        },
-        {
-            "img": "img/portfolio-5.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["identity"],
-        },
-        {
-            "img": "img/portfolio-6.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["branding"],
-        },
-        {
-            "img": "img/portfolio-3.jpg",
-            "title": "Business Perfect item",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra dolor eu nunc porttitor sollicitudin. Maecenas dignissim ultricies pharetra.",
-            "groups": ["illustrations"],
-        },
-    ]
-    return render(request, "portfolio.html", {'projets': projets})
+    # Récupère tous les projets Portfolio dans la base de données
+    projets = Portfolio.objects.all()
+
+    # Prépare une liste des projets avec leurs groupes associés
+    projets_data = []
+    for projet in projets:
+        projets_data.append({
+            "img": projet.img,
+            "title": projet.title,
+            "description": projet.description,
+            "groups": [group.name for group in projet.groups.all()],
+        })
+
+    return render(request, "portfolio.html", {'projets': projets_data})

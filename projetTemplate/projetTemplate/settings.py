@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'projetTemplate.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'exo_1',  # Nom de la base de données créée dans dBeaver
+        'HOST': 'localhost',  # Adresse locale
+        'USER': 'root',  # Identifiant MySQL
+        'PASSWORD': 'Bucheron03-03',  # Mot de passe MySQL
+        'PORT': '3306',  # Port MySQL
     }
 }
 
